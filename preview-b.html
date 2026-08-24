@@ -161,6 +161,57 @@ button.primary:hover{box-shadow:0 18px 40px -12px rgba(14,154,164,.85),0 2px 0 r
 button.outline{border-radius:999px;}
 .gaugebox{position:relative;}
 
+/* ===== 공통 수정 ① 저울 물리 (추가 실제로 이동) ② 글꼴 가시성 ===== */
+
+/* ── ① 저울: 받침점 + 이동하는 추 ── */
+.gauge{overflow:visible;}
+.gauge::before{content:"";position:absolute;left:50%;top:52px;transform:translateX(-50%);
+  width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;
+  border-bottom:22px solid currentColor;opacity:.30;}
+.needle{left:50%;margin-left:-2.5px;width:5px;transform-origin:50% 0%;
+  animation:needleswing 7s ease-in-out infinite;}
+.needle::after{content:"";position:absolute;left:50%;bottom:-15px;transform:translateX(-50%);
+  width:30px;height:30px;border-radius:50%;background:inherit;
+  box-shadow:0 6px 14px rgba(0,0,0,.45),0 0 0 4px rgba(255,255,255,.10) inset;}
+@keyframes needleswing{
+  0%,100%{transform:translate(-150px,-9px) rotateZ(-6deg);}
+  50%    {transform:translate( 150px,-9px) rotateZ( 6deg);}
+}
+@keyframes beamtilt{
+  0%,100%{transform:rotateX(24deg) rotateZ(-2.2deg);}
+  50%    {transform:rotateX(24deg) rotateZ( 2.2deg);}
+}
+
+/* ── ② 글꼴 가시성: 한글에 고정폭·넓은 자간 금지 ── */
+body{font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+.badges{font-family:'IBM Plex Sans KR',Pretendard,system-ui,sans-serif;font-size:13px;letter-spacing:0;gap:18px;font-weight:500;}
+.badge{padding-left:16px;}
+.rulehead{font-family:'IBM Plex Sans KR',Pretendard,system-ui,sans-serif;font-size:13.5px;letter-spacing:.02em;font-weight:600;}
+.eyebrow{font-size:12px;letter-spacing:.22em;}
+.lede{font-size:16.5px;line-height:1.72;}
+.flab{font-size:14px;}
+.flab small{font-size:12.5px;line-height:1.5;}
+.abcell .clab{font-family:'IBM Plex Sans KR',Pretendard,system-ui,sans-serif;font-size:12.5px;letter-spacing:.02em;}
+.abhead{font-size:14.5px;}
+label.f{font-size:13px;}
+input[type=text],textarea,.fval input[type=text],.fval textarea{font-size:15.5px;}
+button.primary{letter-spacing:.04em;font-size:15px;font-weight:700;}
+button.outline{font-size:13.5px;letter-spacing:0;}
+.imgdrop{font-size:13.5px;}
+
+/* B안 전용 — 밝은 배경 대비 강화 */
+.gauge{color:#0B2A33;}
+.needle{background:linear-gradient(180deg,#0B2A33,#12626C);}
+body{color:#0A242C;}
+.lede{color:#3E5D66;}
+.badge{color:#28454E;}
+.rulehead{color:#fff;}
+.flab{color:#0B2A33;}
+.flab small{color:#4A6A73;}
+.abcell .clab{color:#4A6A73;}
+::placeholder{color:#8AA5AC;}
+.imgdrop{color:#4A6A73;}
+
 </style>
 </head>
 <body><script>window.google={script:{run:new Proxy({},{get:(t,k)=>{if(k==='withSuccessHandler'||k==='withFailureHandler')return()=>window.google.script.run;return()=>{};}})}};</script>
