@@ -458,7 +458,7 @@ var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyWcM2cmJdu7rQxTdEbiQr40
 
 /* ===== 광고 파라미터 ===== */
 var AD_KEYS = ['adset_id','adset_name','campaign_id','campaign_name',
-               'form_id','form_name','is_organic','platform'];
+               'form_id','form_name','is_organic','platform','c'];   /* c = 콘텐츠 코드 (ERP 콘텐츠 링크 · 8/30) */
 function adParams(){
   var p = new URLSearchParams(location.search), o = {};
   AD_KEYS.forEach(function(k){ o[k] = p.get(k) || ''; });
@@ -472,7 +472,7 @@ function adParams(){
     else o.platform = '';
   }
   if(!o.is_organic){
-    var hasAd = AD_KEYS.slice(0,6).some(function(k){ return o[k]; });
+    var hasAd = AD_KEYS.slice(0,6).some(function(k){ return o[k]; }) || !!o.c;
     o.is_organic = hasAd ? 'false' : 'true';
   }
   return o;
