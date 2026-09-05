@@ -480,11 +480,15 @@ var AD_KEYS = ['adset_id','adset_name','campaign_id','campaign_name',
 function adParams(){
   var p = new URLSearchParams(location.search), o = {};
   AD_KEYS.forEach(function(k){ o[k] = p.get(k) || ''; });
+  /* 메타 자동 utm 폴백 (#741 · 9/5 실문의 실측): utm_campaign=캠페인id · utm_term=광고세트id · utm_content=광고id */
+  o.campaign_id = o.campaign_id || p.get('utm_campaign') || p.get('utm_id') || '';
+  o.adset_id    = o.adset_id    || p.get('utm_term')     || '';
+  o.ad_id       = o.ad_id       || p.get('utm_content')  || '';
   o.query = location.search.slice(1, 501);               /* 유입쿼리 원문 — 진단용 (#402) */
   o.referrer = (document.referrer || '').slice(0, 300);  /* 리퍼러 원문 — 진단용 (#402) */
   if(!o.platform){
     var r = document.referrer || '';
-    if(p.get('fbclid') || /facebook|instagram|fb\.|l\.messenger/i.test(r)) o.platform = 'meta';   /* fbclid = 메타 클릭 자동 부착 [추정] */
+    if(p.get('fbclid') || /^(ig|fb)$/i.test(p.get('utm_source')||'') || /facebook|instagram|fb\.|l\.messenger/i.test(r)) o.platform = 'meta';   /* fbclid·utm_source=ig = 메타 자동 부착 */
     else if(p.get('gclid')) o.platform = 'google';
     else if(/youtube|youtu\.be/i.test(r)) o.platform = 'youtube';
     else if(/naver/i.test(r)) o.platform = 'naver';
@@ -493,7 +497,7 @@ function adParams(){
     else o.platform = '';
   }
   if(!o.is_organic){
-    var hasAd = AD_KEYS.slice(0,6).some(function(k){ return o[k]; }) || !!o.c;
+    var hasAd = AD_KEYS.slice(0,6).some(function(k){ return o[k]; }) || !!o.c || !!o.ad_id;
     o.is_organic = hasAd ? 'false' : 'true';
   }
   return o;
