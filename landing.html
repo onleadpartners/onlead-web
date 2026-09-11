@@ -36,12 +36,22 @@ body{font-family:'Pretendard Variable',Pretendard,-apple-system,BlinkMacSystemFo
 .top .badge{font-size:13px;font-weight:700;color:var(--brand);background:var(--brand-soft);
   padding:6px 12px;border-radius:999px}
 
+/* ── 3無 원칙 (맨 위) ──────────────────────────────────────── */
+.no3{margin:12px 22px 0;padding:12px 14px;background:var(--bg2);
+  border:1px solid var(--line);border-radius:var(--r-md)}
+.no3 .lb{font-size:12px;font-weight:800;color:var(--brand);letter-spacing:.02em}
+.no3 ul{list-style:none;margin-top:6px;display:grid;gap:4px}
+.no3 li{display:flex;gap:7px;align-items:flex-start;font-size:13.5px;font-weight:700;
+  color:var(--ink);line-height:1.4;word-break:keep-all}
+.no3 li::before{content:'無';flex:none;font-size:10.5px;font-weight:800;line-height:1.5;
+  color:var(--brand);background:var(--brand-soft);border-radius:6px;padding:1px 5px;margin-top:2px}
+
 /* ── HERO ──────────────────────────────────────────────────── */
-.hero{padding:40px 22px 10px}
+.hero{padding:20px 22px 10px}
 .hero h1{font-size:34px;line-height:1.32;font-weight:800;letter-spacing:-.035em;word-break:keep-all}
 .hero h1 .b{color:var(--brand)}
-.hero .sub{margin-top:14px;font-size:17px;color:var(--ink2);word-break:keep-all}
-.cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:26px;
+.hero .sub{margin-top:11px;font-size:17px;color:var(--ink2);word-break:keep-all}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:19px;
   padding:17px;background:var(--brand);color:#fff;border:0;border-radius:var(--r-md);
   font-size:16.5px;font-weight:800;letter-spacing:-.01em;cursor:pointer;text-decoration:none;
   box-shadow:0 8px 20px rgba(45,91,255,.28);transition:transform .12s}
@@ -126,7 +136,29 @@ h2.sec{font-size:23px;font-weight:800;letter-spacing:-.03em;line-height:1.38;wor
   padding:0 4px}
 
 /* ── 신청 폼 ───────────────────────────────────────────────── */
-.formsec{padding:50px 18px 60px;background:var(--bg2);margin-top:40px;
+/* ── 사람냄새 블록 (폼 바로 위) — 페이지 유일한 어두운 타일 ── */
+/* 사진: 상단 밀착(얼굴 절단면이 블록 윗변과 맞닿음) · 반투명 배경 요소 ·
+   왼쪽으로 갈수록 사라지는 마스크로 글자 영역을 비운다 */
+.human{position:relative;margin-top:40px;padding:30px 22px;overflow:hidden;
+  background:var(--ink);color:#fff}
+.human .txt{position:relative;z-index:1;max-width:70%}
+.human h2{font-size:23px;font-weight:800;letter-spacing:-.035em;line-height:1.3;
+  word-break:keep-all}
+.human .who{margin-top:12px;font-size:12.5px;line-height:1.75;color:#A7B0BD;
+  word-break:keep-all}
+.human .who b{color:#F0F3F6;font-weight:700}
+.human .pic{position:absolute;top:0;right:0;width:58%;max-width:300px;
+  opacity:.85;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 46%);
+          mask-image:linear-gradient(to right,transparent 0,#000 46%)}
+.human .pic img{display:block;width:100%;height:auto}
+@media(min-width:520px){
+  .human{padding:34px 24px}
+  .human h2{font-size:26px}
+  .human .who{font-size:13px}
+}
+
+.formsec{padding:50px 18px 60px;background:var(--bg2);margin-top:0;
   border-radius:32px 32px 0 0}
 .formsec .eyebrow{text-align:center}
 .formsec h2.sec{text-align:center}
@@ -215,6 +247,15 @@ footer b{color:var(--ink2)}
   .msg,.rev{transition:none;opacity:1;transform:none}
   .spin{animation:none;display:none}}
 
+@media(max-width:380px){
+  .top{padding-top:14px}
+  .no3{margin-top:10px;padding:10px 12px}
+  .no3 li{font-size:13px}
+  .hero{padding-top:14px}
+  .hero h1{font-size:30px;line-height:1.28}
+  .hero .sub{font-size:16px}
+  .cta{padding:15px;font-size:16px}
+}
 @media(min-width:640px){ .hero h1{font-size:40px} }
 button:focus-visible,a:focus-visible,.chip:focus-visible,summary:focus-visible{
   outline:2.5px solid var(--brand);outline-offset:2px}
@@ -227,6 +268,16 @@ button:focus-visible,a:focus-visible,.chip:focus-visible,summary:focus-visible{
     <span class="brand">정책자금 사전확인</span>
     <span class="badge">상담 비용 0원</span>
   </div>
+
+  <!-- 3無 원칙 (2026-09-10 보현 오더 · ②항 = 보현 1안 확정 문구 그대로) -->
+  <section class="no3" id="no3" aria-label="3無 원칙">
+    <p class="lb">온리드 3無 경영</p>
+    <ul>
+      <li>무책임한 성공 확답 없음</li>
+      <li>계약 전에는 비용이 발생하지 않습니다</li>
+      <li>불분명한 보수지급 없음</li>
+    </ul>
+  </section>
 
   <!-- HERO -->
   <div class="hero">
@@ -319,6 +370,19 @@ button:focus-visible,a:focus-visible,.chip:focus-visible,summary:focus-visible{
     <p class="fineprint">정책자금은 각 기관의 심사를 거쳐 결정되며, 신청한다고 모두 승인되는 것은 아닙니다.
     본 페이지는 지원 가능 여부 확인과 상담 신청을 위한 것으로, 승인이나 한도를 보장하지 않습니다.
     심사에는 재무 요건 외에 대표자의 경력·사업 이력이 함께 반영될 수 있습니다.</p>
+  </div>
+
+  <!-- 사람냄새 블록 (2026-09-11 보현 확정 · 문구 = "이 사람이 받습니다.") -->
+  <div class="human">
+    <div class="txt">
+      <h2>이 사람이 받습니다.</h2>
+      <p class="who"><b>온리드파트너스</b> · 대표 <b>박영준</b><br>
+      사업자등록번호 311-41-01386</p>
+    </div>
+    <div class="pic">
+      <img src="https://onleadpartners.github.io/onlead-web/yj.png" alt="" width="460" height="446"
+           loading="lazy" decoding="async" onerror="this.parentNode.style.display='none'">
+    </div>
   </div>
 
   <!-- 신청 폼 -->
