@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>PR 모니터</title>
+<style>
+html,body{margin:0;height:100%;background:#fff;font:14px/1.5 -apple-system,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;}
+#bar{position:fixed;right:12px;bottom:12px;z-index:9;background:#111;color:#fff;border-radius:999px;padding:8px 14px;font-size:12px;opacity:.72;text-decoration:none;}
+#bar:hover{opacity:1;}
+iframe{border:0;width:100%;height:100%;display:block;}
+</style>
+</head>
+<body>
+<a id="bar" href="https://script.google.com/macros/s/AKfycbx84Vu9uG6-JyYw87L7w_a7puy7hRbjIieDomYquhsmdu-4cwchHYADrHRVlhsIiiE/exec" target="_blank" rel="noopener">화면이 안 보이면 여기</a>
+<script>
+// 액자 안에 앱을 띄운다. 주소 끝 ?job=<건번호> 는 액자 안으로 넘겨 진행 화면을 다시 연다
+(function () {
+  var EXEC = 'https://script.google.com/macros/s/AKfycbx84Vu9uG6-JyYw87L7w_a7puy7hRbjIieDomYquhsmdu-4cwchHYADrHRVlhsIiiE/exec';
+  var m = location.search.match(/[?&]job=([A-Za-z0-9]{1,40})(?:&|$)/);
+  var f = document.createElement('iframe');
+  f.setAttribute('credentialless', '');
+  f.setAttribute('allow', 'clipboard-write');
+  f.src = EXEC + (m ? '?job=' + m[1] : '');
+  document.body.insertBefore(f, document.body.firstChild);
+})();
+</script>
+<noscript><p style="padding:24px">자바스크립트를 켜야 열립니다. 오른쪽 아래 링크로 여세요.</p></noscript>
+</body>
+</html>
