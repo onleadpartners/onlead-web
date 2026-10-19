@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>근무·휴무표 자동화 확인 요청서 — 설악케이블카</title>
+<meta name="description" content="설악케이블카 ERP 근무·휴무표 자동화를 위해 설악의 운영 규칙을 확인하는 고객 작성용 요청서(체크·기입식).">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141414;
+    --sub:#3f3f3f;
+    --ex:#6f6f6f;
+    --green:#157011;
+    --green-dk:#0d4d09;
+    --green-dkr:#093a06;
+    --tint:#e9f3e6;
+    --tint2:#f3f9f1;
+    --line:#2b2b2b;
+    --line2:#b4b4b4;
+    --line3:#dcdcdc;
+    --paper:#ffffff;
+    --bg:#eef1ee;
+    --warn:#b4231c;
+    --warn-bg:#fdecea;
+    --focus:#1a86ff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;color-scheme:light;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+    font-size:16px;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere;
+    -webkit-text-size-adjust:100%;
+  }
+  b,strong{font-weight:700;}
+  a{color:var(--green-dk);}
+
+  /* ── 상단 진행 바 (고정) ── */
+  .pbar{position:sticky;top:0;z-index:50;background:var(--green);color:#fff;
+        box-shadow:0 2px 10px rgba(0,0,0,.18);}
+  .pbar .inner{max-width:760px;margin:0 auto;padding:9px 16px 10px;}
+  .pbar .row1{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;}
+  .pbar .brand{font-weight:900;letter-spacing:-.2px;white-space:nowrap;}
+  .pbar .cur{margin-left:auto;font-weight:500;color:#eafbe8;font-size:13px;
+             overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .segs{display:flex;gap:4px;margin-top:8px;}
+  .segs .s{flex:1;height:7px;border-radius:4px;background:rgba(255,255,255,.28);transition:background .25s;}
+  .segs .s.on{background:#fff;}
+  .segs .s.done{background:#bdebb6;}
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px 40px;}
+
+  /* ── 머리글 ── */
+  .top{background:var(--paper);border-radius:0 0 14px 14px;padding:22px 20px 20px;
+       border-bottom:6px solid var(--green);box-shadow:0 3px 14px rgba(0,0,0,.08);}
+  .eyebrow{font-size:13px;font-weight:700;color:var(--green);letter-spacing:.2px;margin:0 0 6px;}
+  .top h1{margin:0;font-size:27px;font-weight:900;color:var(--ink);letter-spacing:-.6px;line-height:1.2;}
+  .top .lead{margin:12px 0 0;font-size:15.5px;font-weight:500;color:var(--ink);}
+  .top .meta{margin:16px 0 0;padding-top:14px;border-top:1px dashed var(--line2);
+             display:flex;flex-wrap:wrap;gap:4px 22px;font-size:13.5px;color:var(--sub);}
+  .top .meta b{color:var(--ink);}
+  .mtn{display:block;margin-top:12px;}
+
+  /* ── 안내 상자 ── */
+  .why{background:var(--tint);border:1px solid var(--green);border-left:5px solid var(--green);
+       padding:16px 18px;margin:18px 0 0;border-radius:8px;}
+  .why h2{margin:0 0 8px;font-size:17px;font-weight:900;color:var(--green-dkr);}
+  .why p{margin:0 0 7px;font-size:14.5px;line-height:1.55;}
+  .why p:last-child{margin-bottom:0;}
+  .why .give{margin-top:11px;padding-top:11px;border-top:1px dashed var(--green);
+             font-weight:700;color:var(--green-dkr);font-size:15px;}
+
+  /* ── 작성 방법 ── */
+  .howto{border:1px solid var(--line2);border-radius:8px;padding:12px 16px;margin:14px 0 0;
+         font-size:13.5px;color:var(--sub);background:var(--paper);}
+  .howto b{color:var(--ink);}
+  .howto .t{font-weight:900;color:var(--green-dk);margin-right:4px;}
+  .howto ul{margin:7px 0 0;padding-left:18px;}
+  .howto li{margin:3px 0;}
+  .chip{display:inline-block;font-size:11.5px;font-weight:700;color:#fff;background:var(--green);
+        border-radius:5px;padding:1px 7px;vertical-align:1px;}
+
+  /* ── 구역 ── */
+  .grp{margin:26px 0 0;scroll-margin-top:92px;}
+  .grp>h2{display:flex;align-items:center;gap:10px;margin:0 0 4px;
+          background:var(--green);color:#fff;font-size:18px;font-weight:900;
+          padding:11px 14px;border-radius:9px 9px 0 0;letter-spacing:-.3px;}
+  .grp>h2 .no{display:inline-flex;align-items:center;justify-content:center;
+              width:26px;height:26px;background:#fff;color:var(--green-dk);
+              border-radius:50%;font-size:15px;font-weight:900;flex:none;}
+  .grp>h2 small{margin-left:auto;font-size:12px;font-weight:500;color:#eafbe8;text-align:right;}
+  .grp .body{background:var(--paper);border:1px solid var(--line3);border-top:0;
+             border-radius:0 0 11px 11px;padding:6px 16px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+
+  /* ── 문항 ── */
+  .q{padding:16px 0;border-bottom:1px solid var(--line3);}
+  .q:last-child{border-bottom:0;}
+  .q .qh{font-size:16px;font-weight:700;color:var(--ink);margin:0 0 3px;}
+  .q .qh .qn{color:var(--green-dk);font-weight:900;margin-right:6px;}
+  .q .multi{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--green-dk);
+            border-radius:5px;padding:1px 7px;margin-left:4px;vertical-align:1.5px;}
+  .q .why1,.q .ask{font-size:13.5px;color:var(--sub);margin:4px 0 0;line-height:1.5;}
+  .q .why1::before{content:"왜 묻나요 ";font-weight:700;color:var(--green);}
+  .q .ask::before{content:"이렇게 답해 주세요 ";font-weight:700;color:var(--green);}
+  .q .ex{display:block;font-size:13px;color:var(--ex);margin:8px 0 0;line-height:1.45;}
+  .q .ex::before{content:"예시";font-weight:700;color:#fff;background:var(--line2);
+                 font-size:11px;padding:1px 6px;border-radius:5px;margin-right:6px;}
+
+  .prefill-badge{display:inline-block;font-size:11.5px;font-weight:700;color:var(--green-dkr);
+                 background:#d6ecd2;border:1px solid var(--green);border-radius:5px;padding:1px 7px;margin-left:4px;vertical-align:1.5px;}
+  .prefill-note{font-size:13px;color:var(--green-dkr);background:var(--tint2);border:1px dashed var(--green);
+                border-radius:7px;padding:8px 11px;margin:9px 0 0;}
+
+  /* 체크 보기 (큰 터치) */
+  .opts{display:flex;flex-direction:column;gap:9px;margin:12px 0 0;}
+  .opts.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));}
+  .opt{display:flex;align-items:flex-start;gap:11px;min-height:46px;padding:9px 12px;
+       border:1.5px solid var(--line2);border-radius:9px;cursor:pointer;background:var(--paper);
+       transition:border-color .12s,background .12s;user-select:none;}
+  .opt:hover{border-color:var(--green);}
+  .opt input{position:absolute;opacity:0;width:0;height:0;}
+  .opt .box{flex:none;width:24px;height:24px;border:2px solid var(--line);border-radius:6px;background:#fff;
+            margin-top:1px;position:relative;transition:all .12s;}
+  .opt.rad .box{border-radius:50%;}
+  .opt .box::after{content:"";position:absolute;opacity:0;transition:opacity .1s;}
+  .opt.chk .box::after{left:7px;top:2px;width:7px;height:13px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(43deg);}
+  .opt.rad .box::after{left:5px;top:5px;width:10px;height:10px;border-radius:50%;background:#fff;}
+  .opt input:checked ~ .box{background:var(--green);border-color:var(--green);}
+  .opt input:checked ~ .box::after{opacity:1;}
+  .opt input:focus-visible ~ .box{outline:3px solid var(--focus);outline-offset:2px;}
+  .opt.on{border-color:var(--green);background:var(--tint2);}
+  .opt .lab{font-size:15.5px;font-weight:500;padding-top:1px;}
+  .opt .lab .sub{display:block;font-size:12.5px;color:var(--ex);font-weight:400;}
+
+  /* 인라인 입력(연속 보기 안) */
+  input.inl{width:62px;border:0;border-bottom:2px solid var(--green);background:transparent;
+            font:inherit;font-weight:700;text-align:center;color:var(--green-dk);padding:0 2px 1px;margin:0 3px;}
+  input.inl.wide{width:100%;max-width:340px;text-align:left;}
+  input.inl:focus{outline:none;border-bottom-color:var(--focus);}
+
+  /* 기타 */
+  .etc-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .etc-wrap .pre{font-weight:500;font-size:15.5px;}
+
+  /* 기입 표 */
+  .tbl-scroll{overflow-x:auto;margin:12px 0 0;-webkit-overflow-scrolling:touch;}
+  table{width:100%;border-collapse:collapse;min-width:520px;}
+  th,td{border:1px solid var(--line);padding:7px 9px;vertical-align:middle;text-align:left;font-size:14.5px;}
+  thead th{background:var(--green);color:#fff;font-weight:700;font-size:13.5px;text-align:center;}
+  td.c{text-align:center;}
+  td.lab{background:var(--tint2);font-weight:700;color:var(--ink);white-space:nowrap;}
+  td .cell-in{width:100%;border:0;background:transparent;font:inherit;padding:4px 2px;}
+  td .cell-in:focus{outline:2px solid var(--focus);border-radius:4px;}
+  td.num .cell-in{text-align:center;font-weight:700;color:var(--green-dk);}
+  .loc-tag{display:inline-block;background:var(--green-dk);color:#fff;font-size:12px;font-weight:700;
+           border-radius:5px;padding:1px 7px;}
+  .payradio{display:inline-flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .payradio label{display:inline-flex;align-items:center;gap:5px;cursor:pointer;font-size:14px;white-space:nowrap;}
+  .payradio input{width:18px;height:18px;accent-color:var(--green);}
+  .btn-row{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0 0;}
+  .btn-ghost{border:1.5px solid var(--green);color:var(--green-dk);background:#fff;font:inherit;font-weight:700;
+             font-size:13.5px;border-radius:8px;padding:8px 14px;cursor:pointer;}
+  .btn-ghost:hover{background:var(--tint2);}
+
+  /* 작성자 */
+  .sign{margin:26px 0 0;border:1px solid var(--green);border-radius:11px;overflow:hidden;background:var(--paper);box-shadow:0 2px 10px rgba(0,0,0,.05);}
+  .sign>h2{margin:0;background:var(--green);color:#fff;font-size:17px;font-weight:900;padding:12px 16px;}
+  .sign .grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+  .sign .cell{padding:14px 16px;border-top:1px solid var(--line3);}
+  .sign .cell:nth-child(odd){border-right:1px solid var(--line3);}
+  .sign .cell .k{font-size:13.5px;font-weight:700;color:var(--green-dk);margin:0 0 7px;}
+  .sign .cell .k .req{color:var(--warn);margin-left:3px;}
+  .sign .cell input{width:100%;border:1.5px solid var(--line2);border-radius:8px;padding:11px 12px;font:inherit;font-size:15.5px;min-height:46px;background:#fff;color:var(--ink);}
+  .sign .cell input:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(26,134,255,.18);}
+  .sign .cell input.bad{border-color:var(--warn);background:var(--warn-bg);}
+  .sign .note{grid-column:1 / -1;border-top:1px solid var(--line3);background:var(--tint2);
+              padding:12px 16px;font-size:13px;color:var(--sub);}
+  .field-err{color:var(--warn);font-size:12.5px;font-weight:700;margin-top:6px;display:none;}
+  .field-err.show{display:block;}
+
+  /* 제출 */
+  .submit-area{margin:24px 0 0;text-align:center;}
+  .valid-summary{display:none;text-align:left;background:var(--warn-bg);border:1.5px solid var(--warn);
+                 border-radius:9px;padding:12px 16px;margin:0 0 14px;color:var(--warn);font-size:14px;}
+  .valid-summary.show{display:block;}
+  .valid-summary b{color:var(--warn);}
+  .btn-submit{width:100%;max-width:420px;background:var(--green);color:#fff;border:0;border-radius:11px;
+              font:inherit;font-size:18px;font-weight:900;padding:17px 20px;cursor:pointer;
+              box-shadow:0 4px 14px rgba(21,112,17,.35);transition:background .15s,transform .05s;}
+  .btn-submit:hover{background:var(--green-dk);}
+  .btn-submit:active{transform:translateY(1px);}
+  .btn-submit:disabled{background:#9db89a;box-shadow:none;cursor:default;}
+  .submit-hint{font-size:13px;color:var(--sub);margin:12px 0 0;}
+  .hp{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;}
+
+  .foot{margin:22px 0 0;text-align:center;font-size:13px;color:var(--sub);line-height:1.6;}
+  .foot b{color:var(--green-dk);}
+
+  /* 완료 화면 */
+  .done-screen{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);overflow:auto;}
+  .done-screen.show{display:block;}
+  .done-card{max-width:560px;margin:8vh auto;background:var(--paper);border-radius:16px;
+             border-top:7px solid var(--green);padding:40px 28px;text-align:center;
+             box-shadow:0 10px 40px rgba(0,0,0,.18);}
+  .done-card .ck{width:84px;height:84px;margin:0 auto 20px;border-radius:50%;background:var(--tint);
+                 display:flex;align-items:center;justify-content:center;}
+  .done-card .ck svg{width:46px;height:46px;}
+  .done-card h2{margin:0 0 10px;font-size:25px;font-weight:900;color:var(--green-dk);}
+  .done-card p{margin:0 0 8px;font-size:15.5px;color:var(--sub);line-height:1.6;}
+  .done-card .contact{margin:22px 0 0;padding:16px;background:var(--tint2);border-radius:10px;
+                      border:1px solid var(--line3);font-size:14.5px;}
+  .done-card .contact .cl{font-weight:900;color:var(--green-dk);margin-bottom:4px;}
+
+  /* 로딩 */
+  .spin{display:inline-block;width:19px;height:19px;border:3px solid rgba(255,255,255,.45);
+        border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-4px;margin-right:8px;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+
+  @media (max-width:560px){
+    .top h1{font-size:23px;}
+    .sign .grid{grid-template-columns:1fr;}
+    .sign .cell:nth-child(odd){border-right:0;}
+    .opt .lab{font-size:16px;}
+    .opt .box{width:26px;height:26px;}
+    .grp>h2 small{display:none;}
+    .pbar .brand{font-size:13px;}
+    .pbar .cur{font-size:12px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- 진행 바 -->
+<div class="pbar">
+  <div class="inner">
+    <div class="row1">
+      <span class="brand" id="brandStrip">온리드파트너스</span>
+      <span>· 근무·휴무표 자동화 확인</span>
+      <span class="cur" id="curGrp">1. 교대·포지션 규칙</span>
+    </div>
+    <div class="segs" id="segs"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 머리글 -->
+  <header class="top">
+    <p class="eyebrow">설악케이블카 ERP 구축 · 근무·휴무 자동화</p>
+    <h1>근무·휴무표 자동화 확인 요청서</h1>
+    <p class="lead">근무표와 휴무표를 ERP에서 <b>자동으로 만들어 드리려면</b>, 설악에서 실제로 쓰고 계신 <b>운영 규칙</b>을 알아야 합니다. 아래 질문에 <b>보기를 골라 체크만</b> 해 주세요. 어려운 용어는 넣지 않았고, 다 쓰시고 맨 아래 <b>[제출]</b>만 누르면 됩니다.</p>
+    <div class="meta">
+      <div>받는 분 <b id="recipient">전무이사 · 인사/운영 담당자</b> 귀하</div>
+      <div>드림 <b id="sender">온리드파트너스</b></div>
+      <div>작성 안내일 <b id="asof">2026-10-20</b></div>
+      <div>분량 <b>7묶음 · 27문항</b></div>
+    </div>
+    <svg class="mtn" width="160" height="26" viewBox="0 0 160 26" fill="none" aria-hidden="true">
+      <path d="M0 25 L36 6 L56 17 L84 2 L112 19 L138 9 L160 25 Z" fill="#dfeedd" stroke="#157011" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M76 7 L84 2 L92 7 L86 7 L84 5 L82 7 Z" fill="#ffffff"/>
+    </svg>
+  </header>
+
+  <!-- 왜 필요한가 -->
+  <section class="why">
+    <h2>이 문서는 왜 필요한가요?</h2>
+    <p>1) ERP가 근무·휴무표를 <b>자동으로 채우고 계산</b>하려면, 사람이 머릿속으로 지키는 규칙(누가 어느 자리에, 언제 쉬고, 초과근무는 어떻게)을 시스템이 알아야 합니다.</p>
+    <p>2) 지금은 이 규칙이 엑셀에 흩어져 있거나 담당자 경험으로만 있어, 저희가 임의로 정하면 실제와 어긋납니다.</p>
+    <p>3) 그래서 꼭 필요한 <b>7가지 항목</b>만 추려, 가능한 것은 모두 <b>고르기(체크)</b>로 만들었습니다.</p>
+    <p class="give">답만 주시면 설계·개발은 저희가 합니다. 모르거나 미정인 칸은 비워 두셔도 됩니다 — 저희가 다시 여쭙겠습니다.</p>
+  </section>
+
+  <!-- 작성 방법 -->
+  <div class="howto">
+    <span class="t">작성 방법</span> 해당하는 보기를 눌러 체크해 주세요.
+    <ul>
+      <li>여러 개 고를 수 있는 문항은 <span class="chip">여러 개 선택</span> 표시가 있습니다.</li>
+      <li>보기에 없으면 <b>“기타”</b> 칸에 적어 주세요.</li>
+      <li><span class="prefill-badge">미리 채움</span> 표시는 지금 쓰시는 엑셀에서 저희가 미리 넣어 둔 값입니다 — <b>맞는지 확인하고, 다르면 고쳐</b> 주세요.</li>
+      <li>모르는 칸은 비워 두셔도 됩니다.</li>
+    </ul>
+  </div>
+
+  <form id="form" autocomplete="off" novalidate>
+
+  <!-- 봇 방지(사람에겐 안 보임) -->
+  <div class="hp" aria-hidden="true">
+    <label>홈페이지 주소(이 칸은 비워 두세요)<input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off"></label>
+  </div>
+
+  <!-- 묶음 1 -->
+  <section class="grp" id="g1" data-group="1. 교대·포지션 규칙">
+    <h2><span class="no">1</span> 교대·포지션 규칙 <small>누가 어느 자리에, 어떻게 돌아가며 서는지</small></h2>
+    <div class="body">
+
+      <div class="q" data-qid="1-1" data-q="같은 자리에 연속 몇 시간까지">
+        <p class="qh"><span class="qn">1-1</span> 같은 자리(포지션)에 <b>연속으로 몇 시간</b>까지 서나요?</p>
+        <p class="why1">시간대별로 자리를 바꾸는(로테이션) 규칙을 알아야, 자동 배치와 “같은 사람 중복” 경고를 만들 수 있습니다.</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q1-1" value="매시간 교대(연속 1시간까지)"><span class="box"></span><span class="lab">매시간 교대(연속 1시간까지)</span></label>
+          <label class="opt rad"><input type="radio" name="q1-1" value="연속 2시간까지"><span class="box"></span><span class="lab">연속 2시간까지</span></label>
+          <label class="opt rad"><input type="radio" name="q1-1" value="정해진 규칙 없음(담당자 재량)"><span class="box"></span><span class="lab">정해진 규칙 없음(담당자 재량)</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q1-1" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q1-1" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="1-2" data-q="휴게 배분 방식">
+        <p class="qh"><span class="qn">1-2</span> 휴게(쉬는 시간)는 어떻게 배분하나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q1-2" value="근무 N시간마다 휴게 1회"><span class="box"></span><span class="lab etc-wrap"><span class="pre">근무</span><input type="number" min="1" class="inl" data-fill="q1-2:시간" placeholder="예:4">시간마다 휴게 1회</span></label>
+          <label class="opt rad"><input type="radio" name="q1-2" value="정해진 휴게 시간대가 있음"><span class="box"></span><span class="lab">정해진 휴게 시간대가 있음(예: 12:00~13:00)</span></label>
+          <label class="opt rad"><input type="radio" name="q1-2" value="그때그때 배분"><span class="box"></span><span class="lab">그때그때 배분</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q1-2" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q1-2" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="1-3" data-q="팀장 자리 고정 여부">
+        <p class="qh"><span class="qn">1-3</span> 팀장(책임자)의 자리는 <b>고정</b>인가요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q1-3" value="팀장은 고정 자리(예: 사무실)"><span class="box"></span><span class="lab">팀장은 고정 자리(예: 사무실)</span></label>
+          <label class="opt rad"><input type="radio" name="q1-3" value="팀장도 로테이션에 포함"><span class="box"></span><span class="lab">팀장도 로테이션에 포함</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q1-3" value="팀마다 다름"><span class="box"></span><span class="lab etc-wrap"><span class="pre">팀마다 다름 — 어떻게 다른지</span><input type="text" class="inl wide" data-etc="q1-3" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="1-4" data-q="포지션별 최소 인원">
+        <p class="qh"><span class="qn">1-4</span> 자리(포지션)마다 <b>최소 몇 명</b>은 있어야 하나요? <span class="prefill-badge">미리 채움</span></p>
+        <p class="ask">지금 근무표에서 저희가 <b>근무지·자리</b>를 미리 넣어 두었습니다. <b>최소 인원</b>만 채워 주시고, 자리가 다르면 고치거나 지워 주세요.</p>
+        <div class="prefill-note">미리 채운 근무지·자리는 현재 근무표 기준입니다 — <b>권금성 / 설악동 / 캐빈 / 매표실</b>. 숫자가 있으면 “여기 사람이 비었어요” 경고를 만들 수 있습니다.</div>
+        <div class="tbl-scroll">
+          <table id="tbl-pos">
+            <thead><tr><th style="width:24%">근무지</th><th style="width:30%">자리(포지션)</th><th style="width:20%">최소 인원(명)</th><th style="width:26%">비고</th></tr></thead>
+            <tbody><!-- JS가 미리 채움 --></tbody>
+          </table>
+        </div>
+        <div class="btn-row"><button type="button" class="btn-ghost" data-addrow="pos">+ 자리 추가</button></div>
+        <span class="ex">권금성 / 설악동 / 캐빈 / 매표실 아래의 자리(개찰·승강·안내·사무실·매표·C1/C2 등)입니다. 피크시간 인원이 다르면 비고에 적어 주세요.</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 묶음 2 -->
+  <section class="grp" id="g2" data-group="2. 휴무 규칙">
+    <h2><span class="no">2</span> 휴무 규칙 <small>누가 언제 쉬는지, 기호의 뜻</small></h2>
+    <div class="body">
+
+      <div class="q" data-qid="2-1" data-q="쉬는 날 정하는 방식">
+        <p class="qh"><span class="qn">2-1</span> 쉬는 날은 어떻게 정해지나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q2-1" value="요일 고정"><span class="box"></span><span class="lab">요일 고정(사람마다 쉬는 요일이 정해져 있음)</span></label>
+          <label class="opt rad"><input type="radio" name="q2-1" value="주마다 다르게 배정"><span class="box"></span><span class="lab">주마다 다르게 배정</span></label>
+          <label class="opt rad"><input type="radio" name="q2-1" value="둘 다 섞여 있음"><span class="box"></span><span class="lab">둘 다 섞여 있음</span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="2-2" data-q="주당 휴무 일수">
+        <p class="qh"><span class="qn">2-2</span> 한 주에 보통 <b>며칠</b> 쉬나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q2-2" value="주 1일"><span class="box"></span><span class="lab">주 1일</span></label>
+          <label class="opt rad"><input type="radio" name="q2-2" value="주 2일"><span class="box"></span><span class="lab">주 2일</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q2-2" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q2-2" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="2-3" data-q="휴무 기호의 뜻·급여">
+        <p class="qh"><span class="qn">2-3</span> 휴무표·출근부에 쓰시는 <b>기호의 뜻</b>을 확정해 주세요. <span class="prefill-badge">미리 채움</span></p>
+        <p class="why1">지금 파일에 ○ ◎ ☆ ◐ ◇ 같은 기호가 보입니다. 저희가 찾은 범례를 미리 넣었으니, <b>뜻과 급여 지급 여부가 맞는지 확인</b>하고 다르면 고쳐 주세요.</p>
+        <div class="tbl-scroll">
+          <table id="tbl-sym">
+            <thead><tr><th style="width:14%">기호</th><th style="width:46%">뜻(무슨 휴무인가요)</th><th style="width:40%">급여 지급</th></tr></thead>
+            <tbody><!-- JS가 미리 채움 --></tbody>
+          </table>
+        </div>
+        <span class="ex">저희가 찾은 범례: 휴무 ○ · 유급 ◎ · 연차 ☆ · 반차 ◐ · 특휴 ◇. 뜻이 다르거나 빠진 기호가 있으면 수정·추가해 주세요.</span>
+      </div>
+
+      <div class="q" data-qid="2-4" data-q="특별휴무와 평소휴무 겹칠 때">
+        <p class="qh"><span class="qn">2-4</span> 명절·강풍 같은 <b>특별한 날과 평소 휴무가 겹치면</b> 어떻게 하나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q2-4" value="특별 휴무가 우선(그 주 휴무를 다시 배정)"><span class="box"></span><span class="lab">특별 휴무가 우선(그 주 휴무를 다시 배정)</span></label>
+          <label class="opt rad"><input type="radio" name="q2-4" value="평소 휴무가 우선"><span class="box"></span><span class="lab">평소 휴무가 우선</span></label>
+          <label class="opt rad"><input type="radio" name="q2-4" value="그때 담당자가 판단"><span class="box"></span><span class="lab">그때 담당자가 판단</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q2-4" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q2-4" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 묶음 3 -->
+  <section class="grp" id="g3" data-group="3. 초과근무·수당">
+    <h2><span class="no">3</span> 초과근무·수당 <small>기준 시간, 가산율, 어디까지 자동화</small></h2>
+    <div class="body">
+
+      <div class="q" data-qid="3-1" data-q="초과근무 기준 시간">
+        <p class="qh"><span class="qn">3-1</span> 하루에 <b>몇 시간</b>을 넘기면 초과근무로 보나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q3-1" value="하루 8시간"><span class="box"></span><span class="lab">하루 8시간</span></label>
+          <label class="opt rad"><input type="radio" name="q3-1" value="주 N시간 기준"><span class="box"></span><span class="lab etc-wrap"><span class="pre">주</span><input type="number" min="1" class="inl" data-fill="q3-1:주시간" placeholder="예:40">시간 기준</span></label>
+          <label class="opt rad"><input type="radio" name="q3-1" value="유연근무(사람마다 다름)"><span class="box"></span><span class="lab">유연근무(사람마다 다름)</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q3-1" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q3-1" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="3-2" data-q="초과근무 가산율">
+        <p class="qh"><span class="qn">3-2</span> 초과근무 <b>가산율</b>(얼마를 더 쳐 주나요)</p>
+        <p class="ask">종류별로 하나씩 골라 주세요. 수당 금액 계산에 쓰입니다.</p>
+        <div class="opts" style="gap:14px;">
+          <div>
+            <b style="font-size:15px;">· 연장(초과)근무</b>
+            <div class="opts grid" style="margin-top:7px;">
+              <label class="opt rad"><input type="radio" name="q3-2a" value="1.5배"><span class="box"></span><span class="lab">1.5배</span></label>
+              <label class="opt rad etc-opt"><input type="radio" name="q3-2a" value="기타배수"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="number" step="0.1" class="inl" data-fill="q3-2a:배수" placeholder="예:2">배</span></label>
+            </div>
+          </div>
+          <div>
+            <b style="font-size:15px;">· 야간(22시~06시)</b>
+            <div class="opts grid" style="margin-top:7px;">
+              <label class="opt rad"><input type="radio" name="q3-2b" value="0.5배 더 가산"><span class="box"></span><span class="lab">0.5배 더 가산</span></label>
+              <label class="opt rad"><input type="radio" name="q3-2b" value="해당 없음"><span class="box"></span><span class="lab">해당 없음</span></label>
+              <label class="opt rad etc-opt"><input type="radio" name="q3-2b" value="기타배수"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="number" step="0.1" class="inl" data-fill="q3-2b:배수" placeholder="배수">배</span></label>
+            </div>
+          </div>
+          <div>
+            <b style="font-size:15px;">· 휴일 근무</b>
+            <div class="opts grid" style="margin-top:7px;">
+              <label class="opt rad"><input type="radio" name="q3-2c" value="1.5배"><span class="box"></span><span class="lab">1.5배</span></label>
+              <label class="opt rad etc-opt"><input type="radio" name="q3-2c" value="기타배수"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="number" step="0.1" class="inl" data-fill="q3-2c:배수" placeholder="예:2">배</span></label>
+            </div>
+          </div>
+        </div>
+        <span class="ex">법으로 정해진 기본은 연장·휴일 1.5배, 야간 0.5배 추가입니다. 설악에서 더 주시는 규정이 있으면 그 값으로 적어 주세요.</span>
+      </div>
+
+      <div class="q" data-qid="3-3" data-q="초과근무 자동화 범위">
+        <p class="qh"><span class="qn">3-3</span> 초과근무 자동화를 <b>어디까지</b> 해 드릴까요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q3-3" value="시간만 집계"><span class="box"></span><span class="lab">시간만 집계(초과가 몇 시간인지까지)</span></label>
+          <label class="opt rad"><input type="radio" name="q3-3" value="금액까지 계산"><span class="box"></span><span class="lab">금액까지 계산(수당을 원 단위로)</span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="3-4" data-q="통상임금 제공 방식">
+        <p class="qh"><span class="qn">3-4</span> (금액까지 원하실 때) <b>통상임금</b>은 어떻게 알려 주시겠어요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q3-4" value="직원별 시급/통상임금 자료 제공"><span class="box"></span><span class="lab">직원별 시급/통상임금 자료를 주겠다</span></label>
+          <label class="opt rad"><input type="radio" name="q3-4" value="기본급에서 계산하는 규칙 제공"><span class="box"></span><span class="lab">기본급에서 계산하는 규칙을 알려주겠다</span></label>
+          <label class="opt rad"><input type="radio" name="q3-4" value="아직 미정"><span class="box"></span><span class="lab">아직 미정</span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="3-5" data-q="실제 출퇴근 시각 출처">
+        <p class="qh"><span class="qn">3-5</span> 실제 <b>출근·퇴근 시각</b>은 어디서 가져오나요?</p>
+        <p class="why1">초과근무는 ‘실제로 몇 시에 오고 갔는지’가 근거라, 그 기록을 어디서 받는지에 따라 설계가 달라집니다.</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q3-5" value="지문/얼굴 인식기"><span class="box"></span><span class="lab">지문/얼굴 인식기</span></label>
+          <label class="opt rad"><input type="radio" name="q3-5" value="카드(태그) 단말기"><span class="box"></span><span class="lab">카드(태그) 단말기</span></label>
+          <label class="opt rad"><input type="radio" name="q3-5" value="사람이 직접 입력(수기)"><span class="box"></span><span class="lab">사람이 직접 입력(수기)</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q3-5" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q3-5" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 묶음 4 -->
+  <section class="grp" id="g4" data-group="4. 강풍 운휴(운행 중지)">
+    <h2><span class="no">4</span> 강풍 운휴(운행 중지) <small>멈추는 기준과 그날 근무</small></h2>
+    <div class="body">
+
+      <div class="q" data-qid="4-1" data-q="운행 중지 기준">
+        <p class="qh"><span class="qn">4-1</span> 강풍으로 <b>운행을 멈추는 기준</b>이 있나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q4-1" value="풍속 기준 있음"><span class="box"></span><span class="lab etc-wrap"><span class="pre">풍속 기준이 있음 — 초속</span><input type="number" step="0.1" class="inl" data-fill="q4-1:풍속" placeholder="예:20">m/s 이상</span></label>
+          <label class="opt rad"><input type="radio" name="q4-1" value="그때그때 상황 판단"><span class="box"></span><span class="lab">그때그때 상황 판단</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q4-1" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q4-1" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="4-2" data-q="운휴 결정권자">
+        <p class="qh"><span class="qn">4-2</span> 운휴(중지) <b>결정은 누가</b> 하나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q4-2" value="안전/운영 책임자"><span class="box"></span><span class="lab">안전/운영 책임자</span></label>
+          <label class="opt rad"><input type="radio" name="q4-2" value="전무"><span class="box"></span><span class="lab">전무</span></label>
+          <label class="opt rad"><input type="radio" name="q4-2" value="당일 현장 판단"><span class="box"></span><span class="lab">당일 현장 판단</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q4-2" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q4-2" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="4-3" data-q="운휴일 직원 처리">
+        <p class="qh"><span class="qn">4-3</span> 운휴한 날, <b>직원들은</b> 어떻게 하나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q4-3" value="대체 작업 배치(청소·보수·세차·교육 등)"><span class="box"></span><span class="lab">대체 작업 배치(청소·보수·세차·교육 등)</span></label>
+          <label class="opt rad"><input type="radio" name="q4-3" value="단축 근무"><span class="box"></span><span class="lab">단축 근무</span></label>
+          <label class="opt rad"><input type="radio" name="q4-3" value="휴무 처리"><span class="box"></span><span class="lab">휴무 처리</span></label>
+          <label class="opt rad"><input type="radio" name="q4-3" value="상황마다 다름"><span class="box"></span><span class="lab">상황마다 다름</span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="4-4" data-q="대체작업 목록 선택 가능 여부">
+        <p class="qh"><span class="qn">4-4</span> (대체 작업을 한다면) 할 일은 <b>미리 만든 목록</b>에서 고르면 되나요?</p>
+        <p class="why1">지금 ‘강풍 시 할 일’ 목록(필요 인원·주기 포함)이 있어, 그대로 골라 쓰게 만들 수 있습니다.</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q4-4" value="네, 기존 목록 그대로 고르면 됨"><span class="box"></span><span class="lab">네, 기존 목록 그대로 고르면 됨</span></label>
+          <label class="opt rad"><input type="radio" name="q4-4" value="목록이 수시로 바뀜"><span class="box"></span><span class="lab">목록이 수시로 바뀜</span></label>
+          <label class="opt rad"><input type="radio" name="q4-4" value="그때 새로 정함"><span class="box"></span><span class="lab">그때 새로 정함</span></label>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 묶음 5 -->
+  <section class="grp" id="g5" data-group="5. 환경팀">
+    <h2><span class="no">5</span> 환경팀 <small>따로 운영할지, 시간표가 다른지</small></h2>
+    <div class="body">
+
+      <div class="q" data-qid="5-1" data-q="환경팀 별도 근무표 운영">
+        <p class="qh"><span class="qn">5-1</span> 환경팀은 2026년에도 <b>별도 근무표</b>로 운영하나요?</p>
+        <p class="why1">지금은 환경팀만 별도 파일·별도 시간표로 쓰고 계셔서, 합칠지 그대로 둘지에 따라 설계가 달라집니다.</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q5-1" value="네, 지금처럼 별도로"><span class="box"></span><span class="lab">네, 지금처럼 별도로</span></label>
+          <label class="opt rad"><input type="radio" name="q5-1" value="본 근무표에 통합하고 싶다"><span class="box"></span><span class="lab">본 근무표에 통합하고 싶다</span></label>
+          <label class="opt rad"><input type="radio" name="q5-1" value="미정"><span class="box"></span><span class="lab">미정</span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="5-2" data-q="환경팀 고유 시간표 유지">
+        <p class="qh"><span class="qn">5-2</span> 환경팀은 <b>근무 시간대가 다릅니다</b>(예: 08:30~18:00, 일요일 07:00 시작). 그대로 유지해야 하나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q5-2" value="네, 팀 고유 시간표 유지 필수"><span class="box"></span><span class="lab">네, 팀 고유 시간표 유지 필수</span></label>
+          <label class="opt rad"><input type="radio" name="q5-2" value="통일해도 됨"><span class="box"></span><span class="lab">통일해도 됨</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q5-2" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q5-2" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="5-3" data-q="팀마다 시간표 다른 곳">
+        <p class="qh"><span class="qn">5-3</span> 환경팀 말고도 <b>팀마다 시간표가 다른</b> 곳이 있나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q5-3" value="환경팀만 다름"><span class="box"></span><span class="lab">환경팀만 다름</span></label>
+          <label class="opt rad"><input type="radio" name="q5-3" value="여러 팀이 제각각"><span class="box"></span><span class="lab">여러 팀이 제각각</span></label>
+          <label class="opt rad"><input type="radio" name="q5-3" value="모두 동일"><span class="box"></span><span class="lab">모두 동일</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q5-3" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q5-3" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 묶음 6 -->
+  <section class="grp" id="g6" data-group="6. 게시·개인정보">
+    <h2><span class="no">6</span> 게시·개인정보 <small>누가 보고, 얼마나 보관하고, 무엇까지</small></h2>
+    <div class="body">
+
+      <div class="q" data-qid="6-1" data-q="근무·휴무표 열람 범위" data-multi="1">
+        <p class="qh"><span class="qn">6-1</span> 완성된 근무·휴무표를 <b>누가 보나요?</b><span class="multi">여러 개 선택</span></p>
+        <div class="opts">
+          <label class="opt chk"><input type="checkbox" name="q6-1" value="전 직원 열람"><span class="box"></span><span class="lab">전 직원 열람</span></label>
+          <label class="opt chk"><input type="checkbox" name="q6-1" value="팀별로 자기 팀만"><span class="box"></span><span class="lab">팀별로 자기 팀만</span></label>
+          <label class="opt chk"><input type="checkbox" name="q6-1" value="관리자/결재자만"><span class="box"></span><span class="lab">관리자/결재자만</span></label>
+          <label class="opt chk"><input type="checkbox" name="q6-1" value="게시판에 공개 게시"><span class="box"></span><span class="lab">게시판에 공개 게시</span></label>
+          <label class="opt chk etc-opt"><input type="checkbox" name="q6-1" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q6-1" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="6-2" data-q="기록 보관 기간">
+        <p class="qh"><span class="qn">6-2</span> 근무·휴무 기록을 <b>얼마나 보관</b>하나요?</p>
+        <div class="opts grid">
+          <label class="opt rad"><input type="radio" name="q6-2" value="1년"><span class="box"></span><span class="lab">1년</span></label>
+          <label class="opt rad"><input type="radio" name="q6-2" value="3년"><span class="box"></span><span class="lab">3년</span></label>
+          <label class="opt rad"><input type="radio" name="q6-2" value="5년"><span class="box"></span><span class="lab">5년</span></label>
+          <label class="opt rad"><input type="radio" name="q6-2" value="영구"><span class="box"></span><span class="lab">영구</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q6-2" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q6-2" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="6-3" data-q="화면·출력물 노출 정보" data-multi="1">
+        <p class="qh"><span class="qn">6-3</span> 화면·출력물에 직원의 <b>어떤 정보까지</b> 보이게 할까요?<span class="multi">여러 개 선택</span></p>
+        <p class="why1">개인정보 노출 범위를 정해야, 꼭 필요한 정보만 안전하게 보이도록 설계합니다.</p>
+        <div class="opts grid">
+          <label class="opt chk"><input type="checkbox" name="q6-3" value="이름"><span class="box"></span><span class="lab">이름</span></label>
+          <label class="opt chk"><input type="checkbox" name="q6-3" value="직급"><span class="box"></span><span class="lab">직급</span></label>
+          <label class="opt chk"><input type="checkbox" name="q6-3" value="사번"><span class="box"></span><span class="lab">사번</span></label>
+          <label class="opt chk"><input type="checkbox" name="q6-3" value="연락처"><span class="box"></span><span class="lab">연락처</span></label>
+          <label class="opt chk"><input type="checkbox" name="q6-3" value="입사일"><span class="box"></span><span class="lab">입사일</span></label>
+          <label class="opt chk etc-opt"><input type="checkbox" name="q6-3" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q6-3" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="6-4" data-q="직원 본인 조회 기능">
+        <p class="qh"><span class="qn">6-4</span> 직원이 <b>‘내 근무·휴무’를 직접 조회</b>하는 기능을 원하시나요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q6-4" value="네(직원 본인이 조회)"><span class="box"></span><span class="lab">네(직원 본인이 조회)</span></label>
+          <label class="opt rad"><input type="radio" name="q6-4" value="아니오(관리자만 조회)"><span class="box"></span><span class="lab">아니오(관리자만 조회)</span></label>
+          <label class="opt rad"><input type="radio" name="q6-4" value="미정"><span class="box"></span><span class="lab">미정</span></label>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 묶음 7 -->
+  <section class="grp" id="g7" data-group="7. 엑셀 전환 범위">
+    <h2><span class="no">7</span> 엑셀 전환 범위 <small>지금 방식을 어디까지 바꿀지</small></h2>
+    <div class="body">
+
+      <div class="q" data-qid="7-1" data-q="ERP 전환 후 엑셀 운영">
+        <p class="qh"><span class="qn">7-1</span> 지금은 매주 파일을 <b>통째로 복사</b>해 새 날짜를 붙입니다. ERP 도입 뒤에는 어떻게 할까요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q7-1" value="ERP로 완전히 옮기고 엑셀 복제는 그만"><span class="box"></span><span class="lab">ERP로 완전히 옮기고 엑셀 복제는 그만</span></label>
+          <label class="opt rad"><input type="radio" name="q7-1" value="당분간 엑셀도 함께(ERP는 보관·배포용)"><span class="box"></span><span class="lab">당분간 엑셀도 함께(ERP는 보관·배포용)</span></label>
+          <label class="opt rad"><input type="radio" name="q7-1" value="미정"><span class="box"></span><span class="lab">미정</span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="7-2" data-q="기존 엑셀 데이터 처리">
+        <p class="qh"><span class="qn">7-2</span> <b>지금까지 쌓인 엑셀</b>(올해 날짜별 시트들)은 어떻게 할까요?</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q7-2" value="ERP에 올려 보관만"><span class="box"></span><span class="lab">ERP에 올려 보관만</span></label>
+          <label class="opt rad"><input type="radio" name="q7-2" value="데이터로 옮겨 조회까지"><span class="box"></span><span class="lab">데이터로 옮겨 조회까지</span></label>
+          <label class="opt rad"><input type="radio" name="q7-2" value="안 옮겨도 됨(새로 시작)"><span class="box"></span><span class="lab">안 옮겨도 됨(새로 시작)</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q7-2" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q7-2" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+      <div class="q" data-qid="7-3" data-q="가장 먼저 자동화할 1순위">
+        <p class="qh"><span class="qn">7-3</span> 가장 먼저 자동화되면 좋겠는 것 <b>하나</b>를 골라 주세요.</p>
+        <p class="ask">1순위 하나만 체크해 주시면, 그 기능부터 먼저 보여 드리겠습니다.</p>
+        <div class="opts">
+          <label class="opt rad"><input type="radio" name="q7-3" value="초과근무 자동 계산"><span class="box"></span><span class="lab">초과근무 자동 계산</span></label>
+          <label class="opt rad"><input type="radio" name="q7-3" value="지난주 불러오기 + 날짜 자동"><span class="box"></span><span class="lab">지난주 불러오기 + 날짜 자동</span></label>
+          <label class="opt rad"><input type="radio" name="q7-3" value="휴무 자동 반영"><span class="box"></span><span class="lab">휴무 자동 반영</span></label>
+          <label class="opt rad"><input type="radio" name="q7-3" value="인원 자동 집계"><span class="box"></span><span class="lab">인원 자동 집계</span></label>
+          <label class="opt rad etc-opt"><input type="radio" name="q7-3" value="기타"><span class="box"></span><span class="lab etc-wrap"><span class="pre">기타</span><input type="text" class="inl wide" data-etc="q7-3" placeholder="직접 입력"></span></label>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 작성자 -->
+  <section class="sign" id="signSec">
+    <h2>작성해 주신 분</h2>
+    <div class="grid">
+      <div class="cell">
+        <p class="k">담당자 성함<span class="req">*</span></p>
+        <input type="text" id="r_name" name="r_name" placeholder="예: 홍길동" maxlength="40">
+        <div class="field-err" id="err_name">성함을 입력해 주세요.</div>
+      </div>
+      <div class="cell">
+        <p class="k">부서 · 직책</p>
+        <input type="text" id="r_dept" name="r_dept" placeholder="예: 운영팀 과장" maxlength="60">
+      </div>
+      <div class="cell">
+        <p class="k">작성일</p>
+        <input type="date" id="r_date" name="r_date">
+      </div>
+      <div class="cell">
+        <p class="k">연락처(전화 또는 이메일)</p>
+        <input type="text" id="r_contact" name="r_contact" placeholder="회신 받으실 곳" maxlength="80">
+      </div>
+      <div class="note">작성해 주신 내용은 근무·휴무표 자동화 설계에만 사용합니다. 이 문서에는 <b>직원 실명·연락처 등 개인정보를 적지 않으셔도</b> 됩니다. 궁금한 점은 언제든 온리드파트너스로 문의해 주세요.</div>
+    </div>
+  </section>
+
+  <!-- 제출 -->
+  <div class="submit-area">
+    <div class="valid-summary" id="vsum"></div>
+    <button type="submit" class="btn-submit" id="btnSubmit">제출하기</button>
+    <p class="submit-hint">제출 후에는 수정이 어렵습니다. 한 번 더 확인하고 눌러 주세요.</p>
+  </div>
+
+  </form>
+
+  <p class="foot">작성해 주셔서 감사합니다. 주신 답을 바탕으로 <b>온리드파트너스</b>가 설악케이블카에 꼭 맞는 근무·휴무 자동화를 설계해 드리겠습니다.</p>
+
+</div>
+
+<!-- 완료 화면 -->
+<div class="done-screen" id="doneScreen">
+  <div class="done-card">
+    <div class="ck">
+      <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#157011"/><path d="M14 25 l7 7 l13 -15" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2>접수되었습니다</h2>
+    <p>소중한 답변 감사합니다. 주신 내용은 <b id="doneSender">온리드파트너스</b>에 안전하게 전달되었습니다.</p>
+    <p>검토 후 보완이 필요한 부분은 담당자가 다시 연락드리겠습니다.</p>
+    <div class="contact">
+      <div class="cl">문의처</div>
+      <div id="doneContact">온리드파트너스 담당자</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================================================================
+   설정 — 명의·수신자·접속 정보 (여기만 바꾸면 됩니다)
+   =================================================================== */
+var CONFIG = {
+  SENDER: "온리드파트너스",
+  RECIPIENT: "전무이사 · 인사/운영 담당자",
+  CONTACT_LINE: "",          // 완료 화면 문의처 — 값을 넣으면 완료화면에 "문의처" 줄 표시, 비우면(미정) 그 줄을 숨김. 나중에 여기 한 줄만 교체.
+  AS_OF: "2026-10-20",
+
+  // ↓ 설문 전용 Supabase (운영 ERP와 분리된 별도 프로젝트). 아래 키는 공개용 anon(publishable) — select 차단 RLS로 보호됨.
+  SUPABASE_URL: "https://olesmpkxyehwdylabqam.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_Rg19480UMuE3RevTJ7hgbQ_AknhkXIl",
+  TABLE: "responses",
+
+  FORM_VERSION: "1.0"
+};
+
+/* 미리 채움 데이터 (현재 엑셀에서 추출 — 사람 이름 아님, 업무값만) */
+var PREFILL_POSITIONS = [
+  { loc:"권금성", pos:"개찰" },
+  { loc:"권금성", pos:"승강" },
+  { loc:"권금성", pos:"할일" },
+  { loc:"설악동", pos:"개찰" },
+  { loc:"설악동", pos:"승강" },
+  { loc:"설악동", pos:"보조" },
+  { loc:"설악동", pos:"안내" },
+  { loc:"설악동", pos:"사무실" },
+  { loc:"캐빈",   pos:"C1" },
+  { loc:"캐빈",   pos:"C2" },
+  { loc:"매표실", pos:"매표" },
+  { loc:"매표실", pos:"안내" }
+];
+var PREFILL_SYMBOLS = [
+  { sym:"○", mean:"휴무(일반 휴무)",  pay:"미지급" },
+  { sym:"◎", mean:"유급(유급 휴무)",  pay:"지급" },
+  { sym:"☆", mean:"연차",            pay:"지급" },
+  { sym:"◐", mean:"반차",            pay:"지급" },
+  { sym:"◇", mean:"특휴(특별휴가)",   pay:"지급" },
+  { sym:"",  mean:"",               pay:"" }
+];
+
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s);};
+  var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+
+  /* 헤더·명의 반영 */
+  $("#sender").textContent=CONFIG.SENDER;
+  $("#brandStrip").textContent=CONFIG.SENDER;
+  $("#recipient").textContent=CONFIG.RECIPIENT;
+  $("#asof").textContent=CONFIG.AS_OF;
+  $("#doneSender").textContent=CONFIG.SENDER;
+  if(CONFIG.CONTACT_LINE){ $("#doneContact").textContent=CONFIG.CONTACT_LINE; }
+  else { var _cb=document.querySelector(".done-card .contact"); if(_cb) _cb.style.display="none"; }
+
+  /* 작성일 기본값 = 오늘 */
+  (function(){var d=new Date();var p=function(n){return (n<10?"0":"")+n;};
+    $("#r_date").value=d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());})();
+
+  /* ── 1-4 포지션 표 미리 채움 ── */
+  var posBody=$("#tbl-pos tbody");
+  function posRow(loc,pos){
+    var tr=document.createElement("tr");
+    tr.innerHTML=
+      '<td class="c"><span class="loc-tag">'+ (loc?esc(loc):'') +'</span><input class="cell-in loc-in" type="text" value="'+esc(loc)+'" style="display:none"></td>'+
+      '<td><input class="cell-in pos-in" type="text" value="'+esc(pos)+'" placeholder="자리 이름"></td>'+
+      '<td class="num"><input class="cell-in min-in" type="number" min="0" placeholder="명"></td>'+
+      '<td><input class="cell-in note-in" type="text" placeholder="예: 피크시간 3명"></td>';
+    return tr;
+  }
+  PREFILL_POSITIONS.forEach(function(r){posBody.appendChild(posRow(r.loc,r.pos));});
+
+  /* ── 2-3 기호 표 미리 채움 ── */
+  var symBody=$("#tbl-sym tbody");
+  function symRow(o,i){
+    var nm="paysym"+i;
+    var tr=document.createElement("tr");
+    tr.innerHTML=
+      '<td class="c" style="font-size:19px;"><input class="cell-in sym-in" type="text" value="'+esc(o.sym)+'" style="text-align:center;font-size:19px;width:46px;" maxlength="3"></td>'+
+      '<td><input class="cell-in mean-in" type="text" value="'+esc(o.mean)+'" placeholder="뜻"></td>'+
+      '<td><div class="payradio">'+
+        '<label><input type="radio" name="'+nm+'" value="지급" '+(o.pay==="지급"?"checked":"")+'>지급</label>'+
+        '<label><input type="radio" name="'+nm+'" value="미지급" '+(o.pay==="미지급"?"checked":"")+'>미지급</label>'+
+      '</div></td>';
+    return tr;
+  }
+  PREFILL_SYMBOLS.forEach(function(o,i){symBody.appendChild(symRow(o,i));});
+
+  function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+  /* ── 행 추가 ── */
+  $$("[data-addrow]").forEach(function(b){
+    b.addEventListener("click",function(){
+      if(b.getAttribute("data-addrow")==="pos"){
+        var tr=posRow("","");
+        tr.querySelector(".loc-tag").style.display="none";
+        tr.querySelector(".loc-in").style.display="block";
+        tr.querySelector(".loc-in").placeholder="근무지";
+        posBody.appendChild(tr);
+      }
+    });
+  });
+
+  /* ── 보기 선택 시 하이라이트 + 기타 포커스 ── */
+  $$(".opt input").forEach(function(inp){
+    inp.addEventListener("change",function(){
+      var grp=inp.closest(".opts");
+      if(inp.type==="radio"&&grp){
+        $$("input[name='"+cssName(inp.name)+"']",grp.closest(".q")||document).forEach(function(o){
+          var lab=o.closest(".opt"); if(lab) lab.classList.toggle("on",o.checked);
+        });
+      }else{
+        var lab=inp.closest(".opt"); if(lab) lab.classList.toggle("on",inp.checked);
+      }
+      var etc=inp.closest(".opt")?inp.closest(".opt").querySelector("[data-etc],[data-fill]"):null;
+      if(inp.checked&&etc){ setTimeout(function(){etc.focus();},30); }
+    });
+  });
+  function cssName(n){return n.replace(/(["\\])/g,"\\$1");}
+
+  /* 기타/인라인 입력에 글자 넣으면 해당 보기 자동 체크 */
+  $$("[data-etc],[data-fill]").forEach(function(t){
+    t.addEventListener("input",function(){
+      var opt=t.closest(".opt"); if(!opt)return;
+      var inp=opt.querySelector("input[type=radio],input[type=checkbox]");
+      if(inp&&t.value.trim()&&!inp.checked){ inp.checked=true;
+        var ev=new Event("change",{bubbles:true}); inp.dispatchEvent(ev); }
+    });
+  });
+
+  /* ── 진행 바 ── */
+  var groups=$$(".grp");
+  var segWrap=$("#segs");
+  groups.forEach(function(g,i){var s=document.createElement("div");s.className="s";if(i===0)s.classList.add("on");s.dataset.i=i;segWrap.appendChild(s);});
+  var segs=$$(".s",segWrap);
+  var curLabel=$("#curGrp");
+  var activeIdx=0;
+  function setActive(i){
+    activeIdx=i;
+    segs.forEach(function(s,k){ s.classList.toggle("on",k===i); s.classList.toggle("done",k<i); });
+    var g=groups[i]; if(g) curLabel.textContent=g.getAttribute("data-group");
+  }
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(ents){
+      ents.forEach(function(e){ if(e.isIntersecting){ var i=groups.indexOf(e.target); if(i>=0) setActive(i); } });
+    },{rootMargin:"-45% 0px -50% 0px",threshold:0});
+    groups.forEach(function(g){io.observe(g);});
+  }
+  segs.forEach(function(s){s.addEventListener("click",function(){var i=+s.dataset.i;if(groups[i])groups[i].scrollIntoView({behavior:"smooth",block:"start"});});});
+
+  /* ── 수집(직렬화) ── */
+  function collect(){
+    var answers=[];
+    $$(".q[data-qid]").forEach(function(q){
+      var qid=q.getAttribute("data-qid"), qtext=q.getAttribute("data-q");
+      if(qid==="1-4"||qid==="2-3") return; // 표는 따로
+      if(qid==="3-2"){ // 가산율: 연장/야간/휴일 라벨 붙여 저장
+        var map={"q3-2a":"연장(초과)근무","q3-2b":"야간(22~06시)","q3-2c":"휴일근무"};
+        var sub={};
+        Object.keys(map).forEach(function(nm){
+          var ch=document.querySelector("input[name='"+nm+"']:checked");
+          if(!ch) return;
+          var val=ch.value;
+          if(val==="기타배수"){ var f=document.querySelector("[data-fill='"+nm+":배수']"); val="기타 "+((f&&f.value.trim())||"?")+"배"; }
+          sub[map[nm]]=val;
+        });
+        if(Object.keys(sub).length) answers.push({id:qid,q:qtext,value:sub});
+        return;
+      }
+      var selected=[], fills={}, etc="";
+      $$("input[type=radio]:checked, input[type=checkbox]:checked",q).forEach(function(i){ selected.push(i.value); });
+      $$("[data-fill]",q).forEach(function(t){ if(t.value.trim()){ var key=t.getAttribute("data-fill").split(":")[1]||"값"; fills[key]=t.value.trim(); } });
+      $$("[data-etc]",q).forEach(function(t){ if(t.value.trim()) etc=t.value.trim(); });
+      // '기타' 라벨을 실제 입력값으로 치환
+      selected=selected.map(function(v){ return v==="기타"&&etc? ("기타: "+etc) : v; });
+      if(selected.length||Object.keys(fills).length||etc){
+        answers.push({id:qid,q:qtext,value:selected,fills:fills});
+      }
+    });
+    // 1-4 표
+    var positions=[];
+    $$("#tbl-pos tbody tr").forEach(function(tr){
+      var loc=(tr.querySelector(".loc-in")||{}).value||"";
+      var tag=tr.querySelector(".loc-tag"); if(!loc&&tag) loc=tag.textContent;
+      var pos=(tr.querySelector(".pos-in")||{}).value||"";
+      var min=(tr.querySelector(".min-in")||{}).value||"";
+      var note=(tr.querySelector(".note-in")||{}).value||"";
+      if((pos&&pos.trim())||(min&&(""+min).trim())||(note&&note.trim())){
+        positions.push({location:(loc||"").trim(),position:pos.trim(),min:(""+min).trim(),note:note.trim()});
+      }
+    });
+    // 2-3 표
+    var symbols=[];
+    $$("#tbl-sym tbody tr").forEach(function(tr){
+      var sym=(tr.querySelector(".sym-in")||{}).value||"";
+      var mean=(tr.querySelector(".mean-in")||{}).value||"";
+      var payEl=tr.querySelector("input[type=radio]:checked");
+      var pay=payEl?payEl.value:"";
+      if((sym&&sym.trim())||(mean&&mean.trim())){
+        symbols.push({symbol:sym.trim(),meaning:mean.trim(),pay:pay});
+      }
+    });
+    return {
+      form:"근무·휴무표 자동화 확인요청서",
+      version:CONFIG.FORM_VERSION,
+      submitted_at:new Date().toISOString(),
+      sender:CONFIG.SENDER,
+      recipient:CONFIG.RECIPIENT,
+      respondent:{
+        name:$("#r_name").value.trim(),
+        dept_title:$("#r_dept").value.trim(),
+        date:$("#r_date").value,
+        contact:$("#r_contact").value.trim()
+      },
+      answers:answers,
+      positions_1_4:positions,
+      symbols_2_3:symbols,
+      page:{ua:navigator.userAgent, lang:navigator.language}
+    };
+  }
+
+  /* ── 검증 ── */
+  function validate(){
+    var problems=[];
+    var name=$("#r_name").value.trim();
+    var nameEl=$("#r_name"), nameErr=$("#err_name");
+    if(!name){ problems.push("‘작성해 주신 분 → 담당자 성함’을 입력해 주세요."); nameEl.classList.add("bad"); nameErr.classList.add("show"); }
+    else { nameEl.classList.remove("bad"); nameErr.classList.remove("show"); }
+    var answered=0;
+    $$(".q[data-qid]").forEach(function(q){
+      if($$("input:checked",q).length) answered++;
+    });
+    if(answered<3){ problems.push("답을 조금만 더 채워 주세요(최소 3문항). 모르는 칸은 비워 두셔도 됩니다)."); }
+    return problems;
+  }
+
+  /* ── 제출 ── */
+  var form=$("#form"), btn=$("#btnSubmit"), vsum=$("#vsum"), submitting=false;
+  form.addEventListener("submit",function(ev){
+    ev.preventDefault();
+    if(submitting) return;
+    // 봇(honeypot)
+    if($("#hp").value){ showDone(); return; }
+    var problems=validate();
+    if(problems.length){
+      vsum.innerHTML="<b>제출 전 확인해 주세요</b><ul style='margin:7px 0 0;padding-left:18px;'>"+
+        problems.map(function(p){return "<li>"+p+"</li>";}).join("")+"</ul>";
+      vsum.classList.add("show");
+      vsum.scrollIntoView({behavior:"smooth",block:"center"});
+      var bad=$(".bad"); if(bad) try{bad.focus();}catch(e){}
+      return;
+    }
+    vsum.classList.remove("show");
+    send();
+  });
+
+  function send(){
+    submitting=true;
+    btn.disabled=true;
+    btn.innerHTML='<span class="spin"></span>전송 중…';
+    var payload=collect();
+    var body={
+      respondent_name:payload.respondent.name||null,
+      respondent_dept:payload.respondent.dept_title||null,
+      respondent_contact:payload.respondent.contact||null,
+      hp:"",
+      data:payload
+    };
+    if(CONFIG.SUPABASE_URL.indexOf("__")===0){
+      // 미설정(로컬 미리보기) — 전송 흉내만
+      console.warn("[미리보기] Supabase 미설정: 실제 전송 생략");
+      setTimeout(function(){ try{localStorage.setItem("seorak_sched_done","1");}catch(e){} showDone(); },600);
+      return;
+    }
+    fetch(CONFIG.SUPABASE_URL.replace(/\/$/,"")+"/rest/v1/"+CONFIG.TABLE,{
+      method:"POST",
+      headers:{
+        "apikey":CONFIG.SUPABASE_ANON_KEY,
+        "Authorization":"Bearer "+CONFIG.SUPABASE_ANON_KEY,
+        "Content-Type":"application/json",
+        "Prefer":"return=minimal"
+      },
+      body:JSON.stringify(body)
+    }).then(function(res){
+      if(res.ok){ try{localStorage.setItem("seorak_sched_done","1");}catch(e){} showDone(); }
+      else { return res.text().then(function(t){ throw new Error("서버 응답 "+res.status+" "+t); }); }
+    }).catch(function(err){
+      submitting=false; btn.disabled=false; btn.textContent="다시 제출하기";
+      vsum.innerHTML="<b>전송에 실패했습니다.</b> 인터넷 상태를 확인하시고 다시 눌러 주세요. 계속 안 되면 온리드파트너스로 연락 부탁드립니다.<br><span style='font-size:12px;opacity:.8'>"+esc(String(err.message||err))+"</span>";
+      vsum.classList.add("show"); vsum.scrollIntoView({behavior:"smooth",block:"center"});
+    });
+  }
+
+  function showDone(){
+    $("#doneScreen").classList.add("show");
+    window.scrollTo(0,0);
+    document.body.style.overflow="hidden";
+  }
+})();
+</script>
+</body>
+</html>
