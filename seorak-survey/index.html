@@ -958,7 +958,7 @@ var PREFILL_SYMBOLS = [
       }
     });
     var opinions={};
-    $(".opinion textarea[data-opinion]").forEach(function(t){ if(t.value.trim()) opinions[t.getAttribute("data-opinion")]=t.value.trim(); });
+    $$(".opinion textarea[data-opinion]").forEach(function(t){ if(t.value.trim()) opinions[t.getAttribute("data-opinion")]=t.value.trim(); });
     var _oc=$("#overallComment"); var overall=_oc?_oc.value.trim():"";
     return {
       form:"근무·휴무표 자동화 확인요청서",
