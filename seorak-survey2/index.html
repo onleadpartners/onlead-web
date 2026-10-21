@@ -445,16 +445,21 @@
         </div>
       </div>
 
-      <div class="q" data-qid="8" data-q="가산율 1배를 나중에 금액화 때 쓸지(지난 3-2)">
-        <p class="qh"><span class="qn">8</span> 나중에 수당 <b>금액</b>까지 계산하게 되면, 적어 주신 <b>1배</b>를 그대로 쓸까요?</p>
+      <div class="q" data-qid="8" data-q="가산율 1배의 뜻과 금액화 때 배율(지난 3-2)">
+        <p class="qh"><span class="qn">8</span> 적어 주신 <b>1배</b>의 뜻과, 나중에 수당 금액을 계산할 때 어떻게 할지 여쭤볼게요.</p>
         <p class="prev">연장·야간·휴일 모두 “1배”로 적어 주셨어요. 이번엔 시간만 집계하니 금액 계산에는 아직 반영하지 않아요.</p>
         <p class="why1">참고로 법정 기본(상시 5명 이상 사업장)은 연장 1.5배, 휴일 1.5배(8시간 넘는 부분은 2배), 야간은 0.5배를 더 얹어요.</p>
-        <div class="opts">
-          <label class="opt rad"><input type="radio" name="q8" value="네, 1배로 해 주세요"><span class="box"></span><span class="lab">네, 1배로 해 주세요</span></label>
+        <p class="subq">8-1. 적어 주신 ‘1배’는 어떤 뜻인가요?</p>
+        <div class="opts" data-sub="1배의 뜻">
+          <label class="opt rad"><input type="radio" name="q8m" value="더 얹지 않고 평소 시급 그대로라는 뜻이에요"><span class="box"></span><span class="lab">더 얹지 않고 평소 시급 그대로라는 뜻이에요</span></label>
+          <label class="opt rad"><input type="radio" name="q8m" value="야간은 평소 시급에 1배를 더 얹는다는 뜻이었어요"><span class="box"></span><span class="lab">야간은 평소 시급에 1배를 더 얹는다는 뜻이었어요</span></label>
+          <label class="opt rad other-opt"><input type="radio" name="q8m" value="기타"><span class="box"></span><span class="lab">기타(직접 입력)</span><input type="text" class="other-in" data-other-field="q8m" maxlength="300" placeholder="편하게 적어 주세요"></label>
+        </div>
+        <p class="subq">8-2. 나중에 수당 금액까지 계산하게 되면 어떻게 할까요?</p>
+        <div class="opts" data-sub="금액화 때 배율">
+          <label class="opt rad"><input type="radio" name="q8" value="적어 주신 대로 해 주세요"><span class="box"></span><span class="lab">적어 주신 대로 해 주세요</span></label>
           <label class="opt rad"><input type="radio" name="q8" value="그때는 법정 기본 배율로 해 주세요"><span class="box"></span><span class="lab">그때는 법정 기본 배율로 해 주세요</span></label>
           <label class="opt rad"><input type="radio" name="q8" value="그때 다시 정할게요"><span class="box"></span><span class="lab">그때 다시 정할게요</span></label>
-          <label class="opt rad"><input type="radio" name="q8" value="'1배'는 더 얹지 않고 평소 시급 그대로라는 뜻이에요"><span class="box"></span><span class="lab">‘1배’는 더 얹지 않고 평소 시급 그대로라는 뜻이에요</span></label>
-          <label class="opt rad"><input type="radio" name="q8" value="야간은 '1배를 더 얹는다'는 뜻이었어요"><span class="box"></span><span class="lab">야간은 ‘1배를 더 얹는다’는 뜻이었어요</span></label>
           <label class="opt rad other-opt"><input type="radio" name="q8" value="기타"><span class="box"></span><span class="lab">기타(직접 입력)</span><input type="text" class="other-in" data-other-field="q8" maxlength="300" placeholder="편하게 적어 주세요"></label>
         </div>
       </div>
@@ -511,7 +516,7 @@
           <label class="opt chk"><input type="checkbox" name="q11a" value="관리부"><span class="box"></span><span class="lab">관리부</span></label>
           <label class="opt chk"><input type="checkbox" name="q11a" value="기업전략실"><span class="box"></span><span class="lab">기업전략실</span></label>
           <label class="opt chk"><input type="checkbox" name="q11a" value="근무지별 팀장(선임)"><span class="box"></span><span class="lab">근무지별 팀장(선임)</span></label>
-          <label class="opt chk other-opt"><input type="checkbox" name="q11a" value="기타"><span class="box"></span><span class="lab">기타(직접 입력) — 부서·직책으로 적어 주세요</span><input type="text" class="other-in" data-other-field="q11a" maxlength="300" placeholder="부서·직책으로 적어 주세요"></label>
+          <label class="opt chk other-opt"><input type="checkbox" name="q11a" value="기타"><span class="box"></span><span class="lab">기타(직접 입력)</span><input type="text" class="other-in" data-other-field="q11a" maxlength="300" placeholder="부서·직책으로 적어 주세요"></label>
         </div>
         <p class="subq">11-2. 환경팀 근무표는요?</p>
         <div class="opts" data-sub="환경팀 근무표 작성">
