@@ -280,7 +280,7 @@
     <div class="row1">
       <span class="brand" id="brandStrip">온리드파트너스</span>
       <span>· 추가 확인</span>
-      <span class="cur"><span class="cnt" id="cnt">0 / 13</span> 답함</span>
+      <span class="cur"><span class="cnt" id="cnt">0 / 14</span> 답함</span>
     </div>
     <div class="segs" id="segs"></div>
   </div>
@@ -296,7 +296,7 @@
       <div>받는 분 <b id="recipient">전무이사 · 인사/운영 담당자</b> 귀하</div>
       <div>드림 <b id="sender">온리드파트너스</b></div>
       <div>작성 안내일 <b id="asof">2026-10-21</b></div>
-      <div>분량 <b>4묶음 · 13문항</b></div>
+      <div>분량 <b>4묶음 · 14문항</b></div>
     </div>
     <svg class="mtn" width="160" height="26" viewBox="0 0 160 26" fill="none" aria-hidden="true">
       <path d="M0 25 L36 6 L56 17 L84 2 L112 19 L138 9 L160 25 Z" fill="#dfeedd" stroke="#157011" stroke-width="1.4" stroke-linejoin="round"/>
@@ -484,8 +484,8 @@
   </section>
 
   <!-- 묶음 4 -->
-  <section class="grp" id="g4" data-group="4. 게시 · 작성 · 양식">
-    <h2><span class="no">4</span> 게시 · 작성 · 양식 <small>10~13번</small></h2>
+  <section class="grp" id="g4" data-group="4. 게시 · 작성 · 양식 · 낙뢰">
+    <h2><span class="no">4</span> 게시 · 작성 · 양식 · 낙뢰 <small>10~14번</small></h2>
     <div class="body">
 
       <div class="q" data-qid="10" data-q="ERP 도입 후 밴드 공지·열람 범위(지난 6-1)">
@@ -545,6 +545,19 @@
           <label class="opt rad"><input type="radio" name="q13" value="지금은 보내 드리기 어려워요"><span class="box"></span><span class="lab">지금은 보내 드리기 어려워요</span></label>
           <label class="opt rad other-opt"><input type="radio" name="q13" value="기타"><span class="box"></span><span class="lab">기타(직접 입력)</span><input type="text" class="other-in" data-other-field="q13" maxlength="300" placeholder="편하게 적어 주세요"></label>
         </div>
+      </div>
+
+      <div class="q" data-qid="14" data-q="낙뢰 시 운행 중지 기준">
+        <p class="qh"><span class="qn">14</span> 낙뢰가 가까워질 때 운행을 멈추는 기준을 여쭤볼게요.</p>
+        <p class="why1">낙뢰가 강원도 안으로 들어오면 먼저 경고하고, 속초 가까이 오면 운행을 멈추신다고 들었어요. ERP에서 기상청 낙뢰 위치로 알림을 띄워 드리려고 해요.</p>
+        <p class="subq">14-1. 운행을 멈추는 기준은 권금성에서 몇 km 안에 낙뢰가 쳤을 때인가요?</p>
+        <div class="opts" data-sub="운행 중지 거리">
+          <label class="opt rad"><input type="radio" name="q14a" value="거리 기준이 있어요"><span class="box"></span><span class="lab etc-wrap"><span class="pre">권금성에서</span><input type="text" inputmode="decimal" class="inl" data-fill="q14a:km" maxlength="6" aria-label="거리(km)">km 안</span></label>
+          <label class="opt rad"><input type="radio" name="q14a" value="정해진 거리는 없고 현장에서 판단해요"><span class="box"></span><span class="lab">정해진 거리는 없고 현장에서 판단해요</span></label>
+          <label class="opt rad other-opt"><input type="radio" name="q14a" value="기타"><span class="box"></span><span class="lab">기타(직접 입력)</span><input type="text" class="other-in" data-other-field="q14a" maxlength="300" placeholder="편하게 적어 주세요"></label>
+        </div>
+        <p class="subq">14-2. 그 밖에 낙뢰 때 기준이 있으면 알려 주세요 <span style="font-weight:500;color:var(--sub)">(선택)</span></p>
+        <textarea class="free" data-free="그 밖의 낙뢰 기준" maxlength="1000" placeholder="예: 마지막 낙뢰 후 몇 분 뒤 재개 등"></textarea>
       </div>
 
     </div>
@@ -676,7 +689,7 @@ var CONFIG = {
   });
 
   /* ── 답 여부·진행률 ── */
-  function isAnswered(q){ return $$("input[type=radio]:checked, input[type=checkbox]:checked",q).length>0; }
+  function isAnswered(q){ return $$("input[type=radio]:checked, input[type=checkbox]:checked",q).length>0 || $$("textarea[data-free]",q).some(function(x){return x.value.trim();}); }
   var groups=$$(".grp"), segWrap=$("#segs");
   groups.forEach(function(g,i){ var s=document.createElement("div"); s.className="s"; s.dataset.i=i; s.title=g.getAttribute("data-group"); segWrap.appendChild(s); });
   var segs=$$(".s",segWrap);
@@ -710,6 +723,7 @@ var CONFIG = {
         });
         if(picked.length) parts.push(label?{part:label,picked:picked}:{picked:picked});
       });
+      $$("textarea[data-free]",q).forEach(function(x){ if(x.value.trim()) parts.push({part:x.getAttribute("data-free"),text:x.value.trim()}); });
       if(parts.length) answers.push({id:qid,q:qtext,parts:parts});
     });
     var unanswered=qs.filter(function(q){return !isAnswered(q);}).map(function(q){return q.getAttribute("data-qid");});
@@ -795,6 +809,8 @@ var CONFIG = {
     window.scrollTo(0,0);
     document.body.style.overflow="hidden";
   }
+
+  $$("textarea[data-free]").forEach(function(x){ x.addEventListener("input",refresh); });
 
   /* 7-1: '필요해요'일 때만 이유 칸 표시, 아니면 이유 선택 해제 */
   function sync7(){
